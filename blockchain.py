@@ -1,8 +1,5 @@
-import block
-"""
-this class represents the blockchain itself. 
-it
-"""
+import block, hashlib
+
 
 class Blockchain:
 
@@ -16,21 +13,21 @@ class Blockchain:
     # constructs the first block of the chain, 
     # proof_no and prev_hash are set to zero
     def construct_genesis(self):
-        self.construct_block(proof_no = 0, prev_hash = 0)
+        self.construct_block(0, 0)
 
 
     # this methods constructs a block with given proof_no and previous hash
     # appends it to the chain & returns it
-    def construct_block(proof_no, prev_hash):
-        block = block.Block(index = len(self.chain), 
-                            proof_no, 
-                            prev_hash, 
+    def construct_block(self, proof_no, prev_hash):
+        block1 = block.Block(id = len(self.chain), 
+                            proof_no = proof_no, 
+                            prev_hash = prev_hash, 
                             data = self.current_data)
 
         # reset the data for next block
         self.current_data = []
-        self.append_block(block)
-        return block
+        self.append_block(block1)
+        return block1
 
 
     #simply appends desired block to the chain
@@ -58,13 +55,13 @@ class Blockchain:
     def new_data(self, sender, recipient, quantity):
         self.current_data.append({
             'sender': sender,
-            'recipient': recipient
+            'recipient': recipient,
             'quantity': quantity
         })
         return True
 
     @staticmethod
-    def construct_proof_of_work(prev_proof):
+    def proof_of_work(prev_proof):
 
         proof_no = 0
         while Blockchain.verifying_proof(proof_no, prev_proof) is False:
@@ -83,4 +80,33 @@ class Blockchain:
     def lastBlock(self):
         return self.chain[-1]
 
+    def block_mining(self, miner_details):
+        self.new_data(sender="0", 
+                       receiver= miner_details, 
+                        quantity = 1)
 
+        last_block = self.lastBlock()
+
+        last_proof_no = last_block.proof_no
+        proof_no = self.proof_of_work(last_proof_no)
+
+        last_hash = last_block.hash
+        block = self.construct_block(proof_no, last_hash)
+
+        return vars(block)
+
+
+    def create_node(self, address):
+        self.nodes.add(address)
+        return True
+
+    @staticmethod
+    def obtain_block_object(block_data):
+        #obtains block object from the block data
+
+        return Block(
+            block_data['index'],
+            block_data['proof_no'],
+            block_data['prev_hash'],
+            block_data['data'],
+            timestamp=block_data['timestamp'])

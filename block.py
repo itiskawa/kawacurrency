@@ -1,7 +1,7 @@
 import hashlib
 import time
 
-""""
+'''
 this represents a Block in my simple blockchain
 the block needs:
 - an identification number
@@ -9,7 +9,7 @@ the block needs:
 - a previous hash
 - a timestamp
 - the data of the transaction
-""""
+'''
 class Block:
 
     def __init__(self, id, proof_no, prev_hash, data, timestamp=None):
