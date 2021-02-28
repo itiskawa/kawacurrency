@@ -47,6 +47,40 @@ class Blockchain:
         elif prev_block.hash() != block.prev_hash:
             return False
 
-        elif not 
+        elif not Blockchain.verifying_proof(block.proof_no, prev_block.proof_no):
+            return False
+        
+        elif block.timestamp <= prev_block.timestamp:
+            return False
+
+        return True
+    
+    def new_data(self, sender, recipient, quantity):
+        self.current_data.append({
+            'sender': sender,
+            'recipient': recipient
+            'quantity': quantity
+        })
+        return True
+
+    @staticmethod
+    def construct_proof_of_work(prev_proof):
+
+        proof_no = 0
+        while Blockchain.verifying_proof(proof_no, prev_proof) is False:
+            proof_no += 1
+
+        return proof_no
+
+    @staticmethod
+    def verifying_proof(prev_proof, proof):
+
+        guess = f'{prev_proof}{proof}'.encode()
+        guess_hash = hashlib.sha256(guess).hexdigest()
+        return guess_hash[:4] == "0000"
+
+    @property
+    def lastBlock(self):
+        return self.chain[-1]
 
 
