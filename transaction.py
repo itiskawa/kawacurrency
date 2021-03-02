@@ -18,25 +18,26 @@ class Transaction:
         self.__receiver = receiver
         self.__amt = amt
         self.__timestamp = time.time()
-        self.hash = self.calculatehash
+        self.hash = self.calculateHash
 
 
         '''
         Calculates the hash of all the information of the transaction
         Will be used to give to the Bloc it will be a part of 
         '''
-    @property
-    def calculatehash(self):
+    
+    def calculateHash(self):
         trans = self.__sender + self.__receiver + str(self.__amt) + str(self.__timestamp)
 
         return hashlib.sha256(trans.encode()).hexdigest()
 
-
+    def getAmount(self):
+        return self.__amt
 
     def isValid(self):
-        if self.hash != self.calculatehash():
+        """ if self.hash != self.calculateHash():
             print("Hash modified!")
-            return False
+            return False """
         if (self.__sender == self.__receiver):
             print("Cannot send to yourself")
             return False
@@ -44,13 +45,8 @@ class Transaction:
             return False
         return True
 
-        '''
-        Classic __repr__ method
-        '''
-    def __repr__(self):
-        return "{}-{}-{}-{}".format(self.__sender, self.__receiver, 
-                                    self.__amt,
-                                    self.__timestamp)
+
+
 
     '''
     Classic __str__ method

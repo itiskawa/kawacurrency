@@ -11,34 +11,29 @@ class Blockchain:
 
 
     def constructGenesis(self):
-        genesis_transaction = transaction.Transaction("me", "me", 50, time.time)
-        genesis_block = block.Block(0, 0, transaction, time.time)
+        genesisTransaction = Transaction("me", "me", 50)
+        genesis_block = Block(0, 0, [genesisTransaction])
         self.chain.append(genesis_block)
 
 
     def getLastBlock(self):
         if len(self.chain) > 0:
-            return chain[-1]
+            return self.chain[-1]
         else:
             print("Error, the chain is empty!")
 
 
 
-    """ def addBlock(self, blockToAdd):
-        if len(self.chain) == 0:
-            print("Unable to add a block to empty chain. It must be created first. ")
-        else:
-            
-            block.prev_hash = hashlib.sha256()
- """
     def addBlock(self, blockToAdd):
         if len(self.chain) < 1:
             print("Unable to add a block to empty chain. It must be created first")
         
+        print("Block Added \n")
         self.chain.append(blockToAdd)
 
 
     def makeTransaction(self, sender, receiver, amount):
+        print("Transaction Made! \n")
         transaction = Transaction(sender, receiver, amount)
         self.pendingTransactions.append(transaction)
 
@@ -49,7 +44,7 @@ class Blockchain:
             print("Error: cannot mine <1 transactions")
         
         #Block Creation & Mining process
-        newBlock = Block(id = len(self.chain), self.getLastBlock().getHash(), self.transactions)
+        newBlock = Block(len(self.chain), self.getLastBlock().getHash(), self.pendingTransactions)
         # process continues if all transactions in Block are valid
         if newBlock.transactionsAreValid():
             newBlock.mine() # rat race moment
@@ -63,6 +58,11 @@ class Blockchain:
 
 
 
-    
+    def __str__(self):
+        title = "Blockchain Status: \n \n"
+        noBlocks = str(len(self.chain))
+        
+
+        return f"{title} The blockchain currently has {noBlocks} block(s) \n The last block's info is:\n {str(self.getLastBlock())} \n"
 
 

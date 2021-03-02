@@ -1,6 +1,6 @@
 import hashlib
 import time
-
+from transaction import *
 '''
 this represents a Block in my simple blockchain
 the block needs:
@@ -23,9 +23,7 @@ class Block:
         return self.__hash
 
     def computeHash(self):
-        block_string = "{}{}{}{}{}".format(self.index, self.hash, 
-                                            self.prev_hash,
-                                            self.data, self.timestamp)
+        block_string = str(self.__index) + str(self.__prevHash) + str(self.__transactions) + str(self.__timestamp)
 
         return hashlib.sha256(block_string.encode()).hexdigest()
 
@@ -37,4 +35,12 @@ class Block:
 
     def mine(self):
         #difficult-ass thing to do
+        #TODO
         pass
+
+    def __str__(self):
+        total = 0
+        for transaction in self.__transactions:
+            total += transaction.getAmount()
+
+        return f"Block number : {self.__index} \n previous hash : {self.__prevHash}, \n transaction total: {str(total)}" 
