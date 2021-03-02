@@ -12,17 +12,29 @@ the block needs:
 '''
 class Block:
 
-    def __init__(self, index, prev_hash, transactions, timestamp):
-        self.index = index
-        self.prev_hash = prev_hash
-        self.transactions = transactions
-        self.timestamp = timestamp
-        self.hash = self.computehash()
+    def __init__(self, index, prevHash, transactions):
+        self.__index = index
+        self.__prevHash = prevHash
+        self.__transactions = transactions
+        self.__timestamp = time.time()
+        self.__hash = self.computeHash()
 
-    @property #makes it protected
-    def computehash(self):
+    def getHash(self):
+        return self.__hash
+
+    def computeHash(self):
         block_string = "{}{}{}{}{}".format(self.index, self.hash, 
                                             self.prev_hash,
                                             self.data, self.timestamp)
 
         return hashlib.sha256(block_string.encode()).hexdigest()
+
+    def transactionsAreValid(self):
+        validity = True
+        for transaction in self.__transactions:
+            validity &= transaction.isValid()
+        return validity
+
+    def mine(self):
+        #difficult-ass thing to do
+        pass
