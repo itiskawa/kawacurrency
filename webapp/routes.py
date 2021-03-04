@@ -6,6 +6,9 @@ from webapp.models import User, Post
 from webapp import app, db, bcrypt
 from flask_login import login_user, current_user, logout_user, login_required
 
+# blockchain imports
+from blockchain import blockchain
+
 
  
 
@@ -102,3 +105,9 @@ def account():
 @app.route("/transaction", methods = ['GET', 'POST'])
 def transaction():
     return render_template('transaction.html', title = 'Transaction')
+
+
+
+@app.route("/blockchain_status", methods = ['GET', 'POST'])
+def blockchain_status():
+    return render_template('blockchain_status.html', title = 'Status')

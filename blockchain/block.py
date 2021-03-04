@@ -1,6 +1,7 @@
 import hashlib
 import time
-from transaction import *
+from blockchain import transaction
+
 '''
 this represents a Block in my simple blockchain
 the block needs:
