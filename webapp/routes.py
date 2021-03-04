@@ -3,11 +3,11 @@ from PIL import Image
 from flask import render_template, url_for, flash, redirect, request
 from webapp.forms import RegistrationForm, LoginForm, UpdateAccountForm
 from webapp.models import User, Post
-from webapp import app, db, bcrypt
+from webapp import app, db, bcrypt, KWCblockchain
 from flask_login import login_user, current_user, logout_user, login_required
 
 # blockchain imports
-from blockchain import blockchain
+from blockchain import *
 
 
  
@@ -110,4 +110,10 @@ def transaction():
 
 @app.route("/blockchain_status", methods = ['GET', 'POST'])
 def blockchain_status():
-    return render_template('blockchain_status.html', title = 'Status')
+    lastBlock = KWCblockchain.getLastBlock()
+    i = lastBlock.getIndex()
+    total = lastBlock.getTransactionsTotal()
+    prevHash = lastBlock.getPrevHash()
+    totalBlocks = KWCblockchain.chainLength()
+
+    return render_template('blockchain_status.html', title = 'Status', index = i, total = total, prevHash = prevHash, totalBlocks = totalBlocks)

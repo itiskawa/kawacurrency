@@ -1,6 +1,26 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <h1>Blockchain Status</h1>
-
+    <h1 class = "bottom-border-mb4">Blockchain Status</h1>
+    {% if totalBlocks == 1 %}
+        <h2>Blockchain currently has {{ totalBlocks }} Block</h2>
+    {% else %}
+        <h2>Blockchain currently has {{ totalBlocks }} Blocks</h2>
+    {% endif %}
+    <article class="media content-section">
+        <div class="media-body">
+          
+          <h2>Block Number # {{ index }}</h2>
+          <ul>
+            <li>
+                <p class = "article-content"> Previous Block Hash : {{ prevHash }}</p>
+            </li>
+            <li>
+                <p class = "article-content"> Total Volume Transacted : {{ total }}</p>
+            </li>
+          </ul>
+          
+          <p class="article-content"></p>
+        </div>
+      </article>
 {% endblock content%}

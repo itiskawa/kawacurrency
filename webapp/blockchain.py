@@ -23,7 +23,10 @@ class Blockchain:
             print("Error, the chain is empty!")
 
 
+    def chainLength(self):
+        return len(self.chain)
 
+        
     def addBlock(self, blockToAdd):
         if len(self.chain) < 1:
             print("Unable to add a block to empty chain. It must be created first")
@@ -102,6 +105,18 @@ class Block:
             total += transaction.getAmount()
 
         return f"Block number : {self.__index} \n previous hash : {self.__prevHash}, \n transaction total: {str(total)}" 
+    
+    def getIndex(self):
+        return self.__index
+    
+    def getPrevHash(self):
+        return self.__prevHash
+
+    def getTransactionsTotal(self):
+        total = 0
+        for transaction in self.__transactions:
+            total += transaction.getAmount()
+        return total
 
 
 
