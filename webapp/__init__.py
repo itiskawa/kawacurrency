@@ -13,4 +13,4 @@ loginManager = LoginManager(app)
 loginManager.login_view = 'login'
 loginManager.login_message_category = 'info'
 
-from flaskblog import routes # avoids circular importing
+from webapp import routes # avoids circular importing
