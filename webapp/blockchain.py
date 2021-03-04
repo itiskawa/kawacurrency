@@ -1,6 +1,7 @@
 import hashlib, time
-
-
+from flask_login import current_user
+from webapp.models import User
+from webapp import db
 
 class Blockchain:
 
@@ -26,7 +27,7 @@ class Blockchain:
     def chainLength(self):
         return len(self.chain)
 
-        
+
     def addBlock(self, blockToAdd):
         if len(self.chain) < 1:
             print("Unable to add a block to empty chain. It must be created first")
@@ -36,10 +37,17 @@ class Blockchain:
 
 
     def makeTransaction(self, sender, receiver, amount):
-        print("Transaction Made! \n")
+        #print("Transaction Made! \n")
         transaction = Transaction(sender, receiver, amount)
+        current_user.balance -= amount
+        rec = User.query.filter_by(username = receiver).first()
+        rec.balance += amount
+        db.session.commit()
+        """ print("sender's new balance: ", current_user.balance)
+        print("receiver's balance: ", rec.balance) """
         self.pendingTransactions.append(transaction)
 
+        return True
 
 
     def minePendingTransactions(self): # no miner for now
@@ -54,7 +62,10 @@ class Blockchain:
 
             print("Mining done")
             self.addBlock(newBlock)
+            
             self.pendingTransactions = []
+            current_user.balance += 50.0
+            db.session.commit()
         else:
             print("Sorry, there are fraudy transactions in this list")
 

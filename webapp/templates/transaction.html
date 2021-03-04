@@ -9,23 +9,23 @@
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Make Your Transaction</legend>
                 <div class="form-group">
-                    {{ form.username.label(class="form-control-label") }}
+                    {{ form.receiver.label(class="form-control-label") }}
 
-                    {% if form.username.errors %}
-                        {{ form.username(class="form-control form-control-lg is-invalid") }}
+                    {% if form.receiver.errors %}
+                        {{ form.receiver(class="form-control form-control-lg is-invalid") }}
                         <div class="invalid-feedback">
-                            {% for error in form.username.errors %}
+                            {% for error in form.receiver.errors %}
                                 <span>{{ error }}</span>
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.username(class="form-control form-control-lg") }}
+                        {{ form.receiver(class="form-control form-control-lg") }}
                     {% endif %}
                 </div>
                 
                 <div class="form-group">
                     {{ form.amount.label(class="form-control-label") }}
-                    {{ form.username(class="form-control form-control-lg") }}
+                    {{ form.amount(class="form-control form-control-lg") }}
                 </div>
             </fieldset>
             <div class="form-group">

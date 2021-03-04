@@ -1,7 +1,7 @@
 import secrets, os
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request
-from webapp.forms import RegistrationForm, LoginForm, UpdateAccountForm, TransactionForm
+from webapp.forms import RegistrationForm, LoginForm, UpdateAccountForm, TransactionForm, MineForm
 from webapp.models import User, Post
 from webapp import app, db, bcrypt, KWCblockchain
 from flask_login import login_user, current_user, logout_user, login_required
@@ -17,9 +17,10 @@ from blockchain import *
 def home():
     return render_template('home.html') # gives us a variable
 
-@app.route("/about")
-def about():
-    return render_template('about.html', title = "About")
+@app.route("/users")
+def users():
+    users = User.query.all()
+    return render_template('users.html', title = "Users", users = users)
 
 
 @app.route("/register", methods=['GET', 'POST'])
@@ -105,6 +106,13 @@ def account():
 @app.route("/transaction", methods = ['GET', 'POST'])
 def transaction():
     form = TransactionForm()
+    if form.validate_on_submit():
+        
+        trans = KWCblockchain.makeTransaction(current_user, form.receiver.data, form.amount.data)
+        if trans:
+            flash('Transaction done successfully', 'success')
+        else:
+            flash('Error', 'danger')
     return render_template('transaction.html', title = 'Transaction', form= form)
 
 
@@ -122,7 +130,14 @@ def blockchain_status():
                             title = 'Status', index = i, 
                             total = total, prevHash = prevHash, 
                             totalBlocks = totalBlocks) """
-    return render_template('blockchain_status.html', chain= KWCblockchain.chain)
+    return render_template('blockchain_status.html',totalBlocks = KWCblockchain.chainLength(), chain= KWCblockchain.chain)
 
 
 
+@app.route("/mine", methods=['GET', 'POST'])
+def mine():
+    form = MineForm()
+    if form.validate_on_submit():
+        print("mine")
+        KWCblockchain.minePendingTransactions()
+    return render_template('mine.html', form = form)

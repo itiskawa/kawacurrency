@@ -64,7 +64,7 @@ class UpdateAccountForm(FlaskForm):
 
 
 class TransactionForm(FlaskForm):
-    username = StringField('Receiver', 
+    receiver = StringField('Receiver', 
                 validators=[DataRequired(), Length(min=2, max=20)])
     
     amount = FloatField('How much do you want to send?', 
@@ -75,5 +75,9 @@ class TransactionForm(FlaskForm):
             user = User.query.filter_by(username=username.data).first()
             if user:
                 raise ValidationError('Username already exists')
-            
-    submit = SubmitField('Update')
+
+    submit = SubmitField('Send KWC')
+
+
+class MineForm(FlaskForm):
+    submit = SubmitField('Mine')
