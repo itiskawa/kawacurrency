@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, FloatField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 import email_validator
 from webapp.models import User
@@ -61,3 +61,19 @@ class UpdateAccountForm(FlaskForm):
             email = User.query.filter_by(email=email.data).first()
             if email:
                 raise ValidationError('There already exists an account with this e-mail address')
+
+
+class TransactionForm(FlaskForm):
+    username = StringField('Receiver', 
+                validators=[DataRequired(), Length(min=2, max=20)])
+    
+    amount = FloatField('How much do you want to send?', 
+                        validators=[DataRequired()])
+
+    def validate_username(self, username):
+        if username.data != current_user.username:
+            user = User.query.filter_by(username=username.data).first()
+            if user:
+                raise ValidationError('Username already exists')
+            
+    submit = SubmitField('Update')

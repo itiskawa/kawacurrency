@@ -1,7 +1,7 @@
 import secrets, os
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request
-from webapp.forms import RegistrationForm, LoginForm, UpdateAccountForm
+from webapp.forms import RegistrationForm, LoginForm, UpdateAccountForm, TransactionForm
 from webapp.models import User, Post
 from webapp import app, db, bcrypt, KWCblockchain
 from flask_login import login_user, current_user, logout_user, login_required
@@ -104,16 +104,25 @@ def account():
 
 @app.route("/transaction", methods = ['GET', 'POST'])
 def transaction():
-    return render_template('transaction.html', title = 'Transaction')
+    form = TransactionForm()
+    return render_template('transaction.html', title = 'Transaction', form= form)
+
 
 
 
 @app.route("/blockchain_status", methods = ['GET', 'POST'])
 def blockchain_status():
-    lastBlock = KWCblockchain.getLastBlock()
+    """ lastBlock = KWCblockchain.getLastBlock()
     i = lastBlock.getIndex()
     total = lastBlock.getTransactionsTotal()
     prevHash = lastBlock.getPrevHash()
     totalBlocks = KWCblockchain.chainLength()
 
-    return render_template('blockchain_status.html', title = 'Status', index = i, total = total, prevHash = prevHash, totalBlocks = totalBlocks)
+    return render_template('blockchain_status.html', 
+                            title = 'Status', index = i, 
+                            total = total, prevHash = prevHash, 
+                            totalBlocks = totalBlocks) """
+    return render_template('blockchain_status.html', chain= KWCblockchain.chain)
+
+
+

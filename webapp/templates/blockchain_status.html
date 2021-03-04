@@ -7,20 +7,33 @@
     {% else %}
         <h2>Blockchain currently has {{ totalBlocks }} Blocks</h2>
     {% endif %}
+    {% for block in chain %}
     <article class="media content-section">
         <div class="media-body">
           
-          <h2>Block Number # {{ index }}</h2>
+          <h2>Block Number # {{ block.getIndex() }}</h2>
           <ul>
             <li>
-                <p class = "article-content"> Previous Block Hash : {{ prevHash }}</p>
+                <p class = "article-content"> Previous Block Hash : {{ block.getPrevHash() }}</p>
             </li>
             <li>
-                <p class = "article-content"> Total Volume Transacted : {{ total }}</p>
+                <p class = "article-content"> Total Volume Transacted : {{ block.getTransactionsTotal() }}</p>
             </li>
           </ul>
           
           <p class="article-content"></p>
         </div>
       </article>
+      {% endfor %}
+        <!-- <div class="border-top pt-3">
+                <small class="text-muted">
+                    <a class="ml-2" href="{{ url_for('register') }}">Last Block</a>
+                </small>
+            <div align="right" >
+            <small class="text-muted" >
+                <a class="ml-2" href="{{ url_for('register') }}">Next Block</a>
+            </small>
+        </div>
+        </div> -->
+        
 {% endblock content%}
