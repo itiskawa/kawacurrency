@@ -6,6 +6,7 @@
           <div class="media-body">
             <h2 class="account-heading">{{current_user.username}}</h2>
             <p class="text-secondary">{{ current_user.email}}</p>
+            <p class = "text-primary">Current Balance : {{ current_user.balance}} KWC</p>
           </div>
         </div>
         <div class="content-section">
@@ -54,6 +55,7 @@
                     {{ form.submit(class="btn btn-outline-info") }}
                 </div>
             </form>
+            
 
       </div>
     

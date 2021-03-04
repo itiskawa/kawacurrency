@@ -13,4 +13,9 @@ loginManager = LoginManager(app)
 loginManager.login_view = 'login'
 loginManager.login_message_category = 'info'
 
+print("creatring db")
+
+from webapp.models import User, Post
+db.create_all()
+
 from webapp import routes # avoids circular importing

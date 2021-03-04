@@ -6,27 +6,13 @@ from webapp.models import User, Post
 from webapp import app, db, bcrypt
 from flask_login import login_user, current_user, logout_user, login_required
 
- #dummy data
-posts = [
-     {
-         'author' : 'Me',
-         'title' : 'Blog Post 1',
-         'content' : 'Forst post content',
-         'date_posted' : 'Today'
-     },
-     {
-         'author' : 'You',
-         'title' : 'Blog Post 2',
-         'content' : 'Second post content',
-         'date_posted' : 'Later Today'
-     }
-]
+
  
 
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template('home.html', posts = posts) # gives us a variable
+    return render_template('home.html') # gives us a variable
 
 @app.route("/about")
 def about():
@@ -110,4 +96,9 @@ def account():
         form.username.data = current_user.username
         form.email.data = current_user.email
     image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
-    return render_template('account.html', title='Account', image_file=image_file, form= form)
+    return render_template('account.html', title=current_user.username, image_file=image_file, form= form)
+
+
+@app.route("/transaction", methods = ['GET', 'POST'])
+def transaction():
+    return render_template('transaction.html', title = 'Transaction')
