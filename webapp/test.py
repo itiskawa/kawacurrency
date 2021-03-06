@@ -1,4 +1,4 @@
-from blockchain import *
+import blockchain
 
 blockchain = Blockchain()
 

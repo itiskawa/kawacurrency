@@ -13,6 +13,9 @@
           
           <h2>Block Number # {{ block.getIndex() }}</h2>
           <ul>
+              <li>
+                <p class = "article-content"> Block Hash : {{ block.getHash() }}</p>
+            </li>
             <li>
                 <p class = "article-content"> Previous Block Hash : {{ block.getPrevHash() }}</p>
             </li>

@@ -139,5 +139,8 @@ def mine():
     form = MineForm()
     if form.validate_on_submit():
         print("mine")
-        KWCblockchain.minePendingTransactions()
+        if KWCblockchain.minePendingTransactions():
+            flash('Thank you mining a Block! \n Check your rewards!', 'Success')
+        else:
+            flash('There was no transaction to mine...', 'danger')
     return render_template('mine.html', form = form)

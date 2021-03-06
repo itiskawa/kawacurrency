@@ -17,6 +17,7 @@ class Blockchain:
         self.chain.append(genesis_block)
 
 
+
     def getLastBlock(self):
         if len(self.chain) > 0:
             return self.chain[-1]
@@ -52,7 +53,7 @@ class Blockchain:
 
     def minePendingTransactions(self): # no miner for now
         if len(self.pendingTransactions) < 1:
-            print("Error: cannot mine <1 transactions")
+            return False
         
         #Block Creation & Mining process
         newBlock = Block(len(self.chain), self.getLastBlock().getHash(), self.pendingTransactions)
@@ -66,8 +67,10 @@ class Blockchain:
             self.pendingTransactions = []
             current_user.balance += 50.0
             db.session.commit()
+            return True
         else:
             print("Sorry, there are fraudy transactions in this list")
+            return False
 
 
 
@@ -89,13 +92,15 @@ class Block:
         self.__prevHash = prevHash
         self.__transactions = transactions
         self.__timestamp = time.time()
+        self.__difficulty = 1 # default difficulty fo now
+        self.nonse = 0 # default nonse
         self.__hash = self.computeHash()
 
     def getHash(self):
         return self.__hash
 
     def computeHash(self):
-        block_string = str(self.__index) + str(self.__prevHash) + str(self.__transactions) + str(self.__timestamp)
+        block_string = str(self.__index) + str(self.__prevHash) + str(self.__transactions) + str(self.__timestamp) + str(self.nonse)
 
         return hashlib.sha256(block_string.encode()).hexdigest()
 
@@ -107,8 +112,19 @@ class Block:
 
     def mine(self):
         #difficult-ass thing to do
-        #TODO
-        pass
+        goal = []
+        for i in range(0, self.__difficulty):
+            goal.append(i)
+
+        secret = map(str, goal)
+        #print("Goal for hash to start with ", secret[0])
+        
+        while self.__hash[0:self.__difficulty] != list(secret):
+            self.nonse += 1
+            self.__hash = self.computeHash()
+            """ print("Nonse", self.nonse)
+            print("Hash ", self.__hash) """
+        return True
 
     def __str__(self):
         total = 0
