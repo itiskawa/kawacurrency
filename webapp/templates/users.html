@@ -4,7 +4,8 @@
 
     <h1>Users of Kawacoin</h1>
     {% for user in users %}
-    <p> {{user.username}} </p>
+    
+    <p> {{user.username}} - Balance: {{user.balance}} KWC</p>
     {% endfor %}
 
     

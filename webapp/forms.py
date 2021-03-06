@@ -70,14 +70,14 @@ class TransactionForm(FlaskForm):
     amount = FloatField('How much do you want to send?', 
                         validators=[DataRequired()])
 
-    def validate_username(self, username):
-        if username.data != current_user.username:
-            user = User.query.filter_by(username=username.data).first()
-            if user:
-                raise ValidationError('Username already exists')
 
     submit = SubmitField('Send KWC')
 
+    def validate_username(self, username):
+        receiver = User.query.filter_by(username = username.data).first()
+        if receiver:
+            print("not ok")
+            raise ValidationError('No such username')
 
 class MineForm(FlaskForm):
     submit = SubmitField('Mine')

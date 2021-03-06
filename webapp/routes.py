@@ -20,6 +20,7 @@ def home():
 @app.route("/users")
 def users():
     users = User.query.all()
+    
     return render_template('users.html', title = "Users", users = users)
 
 
@@ -107,12 +108,18 @@ def account():
 def transaction():
     form = TransactionForm()
     if form.validate_on_submit():
-        
-        trans = KWCblockchain.makeTransaction(current_user, form.receiver.data, form.amount.data)
-        if trans:
-            flash('Transaction done successfully', 'success')
+        receiver = User.query.filter_by(username = form.receiver.data).first()
+        if receiver:
+            trans = KWCblockchain.makeTransaction(current_user, form.receiver.data, form.amount.data)
+            if trans == "OK":
+                flash('Transaction done successfully', 'success')
+            elif trans == "money problem":
+                flash('Balance insufficient, please buy more KWC', 'danger')
+            else:
+                flash('Error', 'danger')
         else:
-            flash('Error', 'danger')
+            flash('User does not exist', 'danger')
+    
     return render_template('transaction.html', title = 'Transaction', form= form)
 
 

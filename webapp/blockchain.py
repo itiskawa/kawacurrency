@@ -40,6 +40,8 @@ class Blockchain:
     def makeTransaction(self, sender, receiver, amount):
         #print("Transaction Made! \n")
         transaction = Transaction(sender, receiver, amount)
+        if current_user.balance < amount:
+            return "money problem"
         current_user.balance -= amount
         rec = User.query.filter_by(username = receiver).first()
         rec.balance += amount
@@ -48,7 +50,7 @@ class Blockchain:
         print("receiver's balance: ", rec.balance) """
         self.pendingTransactions.append(transaction)
 
-        return True
+        return "OK"
 
 
     def minePendingTransactions(self): # no miner for now
