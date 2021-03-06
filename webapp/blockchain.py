@@ -92,7 +92,7 @@ class Block:
         self.__prevHash = prevHash
         self.__transactions = transactions
         self.__timestamp = time.time()
-        self.__difficulty = 1 # default difficulty fo now
+        self.__difficulty = 4 # default difficulty fo now
         self.nonse = 0 # default nonse
         self.__hash = self.computeHash()
 
@@ -112,18 +112,19 @@ class Block:
 
     def mine(self):
         #difficult-ass thing to do
-        goal = []
+        arr = []
         for i in range(0, self.__difficulty):
-            goal.append(i)
-
-        secret = map(str, goal)
-        #print("Goal for hash to start with ", secret[0])
+            arr.append(i)
         
-        while self.__hash[0:self.__difficulty] != list(secret):
+        #compute until the beginning of the hash = 0123..difficulty
+        arrStr = map(str, arr)
+        hashPuzzle = ''.join(arrStr)
+        while self.__hash[0:self.__difficulty] != hashPuzzle:
             self.nonse += 1
             self.__hash = self.computeHash()
-            """ print("Nonse", self.nonse)
-            print("Hash ", self.__hash) """
+            """ print("nonse:", self.nonse)
+            print("hash", self.__hash[0:4])
+ """
         return True
 
     def __str__(self):
@@ -139,6 +140,8 @@ class Block:
     def getPrevHash(self):
         return self.__prevHash
 
+    def getTimestamp(self):
+        return self.__timestamp
     def getTransactionsTotal(self):
         total = 0
         for transaction in self.__transactions:
