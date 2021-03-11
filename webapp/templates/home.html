@@ -2,5 +2,85 @@
 
 {% block content %}
     <h1>Home Menu</h1>
+    <div>
+        <h2> 
+            Kawacoin: what is it?
+        </h2>
+        <p>
+            To make it simple, it's a pet project of mine. <br>
+            It's a way for me (Kawa) to display my computer science / programming skills, and practice them. 
+            <br>
+            I've been interested in cryptocurrencies for a while, 
+            but after my third semester in computer science, I figured I had
+            enough knowledge & personal drive to build this web-app on my own. 
+            <br>
+            <br>
+            <h3>
+                So why this format?
+            </h3>
+            <p>
+                I felt like it. I wanted to learn more about blockchain technology, 
+                which I used to implement the pseudo-cryptocurrency I've built. (More technical information later)
+            </p>
+        </p>
+
+        <h2>
+            How it works:
+        </h2>
+        <p>DISCLAIMER:  I am in no way a professional, I'm just an interested individual, 
+            and this is how I implemented what I know.
+
+            <br>
+            <br>
+            Blockchain is comprised of Blocks, which each contain information. 
+            These blocks are linked by the fact that each block (n) contains a "marker" of the previous block (n-1.)
+            This is basically why it's called like that; so now for more details. 
+
+            <br>
+            <br>
+            I've chosen to have each block store the following informations:
+            <ul>
+                <li>
+                    Its number / placement in the blockchain [index]
+                </li>
+                <li>
+                    The hash of the preceding block
+                </li>
+                <li>
+                    The transactions perfomed in this block
+                </li>
+                <li>
+                    The time at which it was created
+                </li>
+                <li>
+                    The difficulty it is to mine it (same for all blocks)
+                </li>
+                <li>
+                    Its nonce (mining validator)
+                </li>
+                <li>
+                Its own hash
+                </li>
+            </ul>
+            <br>
+            <br>
+            The hash of each block is computed using the SHA256 algorithm, 
+            applied on a concatenation of all values stored in the block. 
+            The SHA256 algorithm is a commonly-used hash function, which is a function 
+            which computes a "close to random" output for every input. It is howvever deterministic. 
+            By that I mean that for each input has a particular output associated to it. 
+            It is however very difficult to find the input given the output, so we use hash functions to 
+            VERIFY the contents of the input rather than figuring the input out. 
+            <br>
+            <br>
+            The nonse is the input to the "mining puzzle", which must be solved in order to 
+            mine a block. The puzzle I implemented is very simplistic: starting with nonse = 0, 
+            increment it and check if the hash of the nonse starts with "0123". If it does, you 
+            have succesfully mined a block. 
+            <br>
+            This principle is the principle of Proof of Work, which is basically a race for Miners to 
+            mine a block. 
+        </p>
+    </div>
 
 {% endblock content%}
